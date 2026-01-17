@@ -18,6 +18,7 @@ The project focuses on writing clean, modular code and gradually adding automati
 - Text-to-Speech (TTS) support using 'pyttsx3'
 - Modular architecture ('commands','tts','main')
 - Easy to extend with new commands
+- Open websites
 
 ---
 

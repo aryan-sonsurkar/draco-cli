@@ -8,6 +8,12 @@ def web_commands(cmd):
         speak(reply)
         webbrowser.open("https://chatgpt.com")
     
+    elif cmd=="open github":
+        reply = "Opening GitHub ,Bro commit well!"
+        print(reply)
+        speak(reply)
+        webbrowser.open("https://github.com")
+        
     else:
         reply ="Sorry i can't open it"
         print(reply)
