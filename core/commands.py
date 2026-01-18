@@ -1,6 +1,7 @@
 from core.tts import speak
 from modules.commands.web_apps import web_commands
 from modules.commands.jokes import jokes
+from modules.commands.system import system_status
 
 def command_prompt():
     while True:
@@ -32,6 +33,13 @@ def command_prompt():
         
         elif "joke" in cmd:
             jokes(cmd)
-    
+        
+        elif "help" in cmd or "commands" in cmd:
+             print("Available Commands:\n- who are you\n- who created you\n- open github\n- open youtube\n- open leetcode\n- joke\n- exit")
+             speak("Available Commands...")
+        
+        elif "system status" in cmd or "system info" in cmd or "my pc" in cmd:
+            system_status()
+
         else:
             print("This is command is not available.")
