@@ -1,6 +1,7 @@
 # draco-cli
 A command-line project bulit step by step while learning python.
 The project focuses on writing clean, modular code and gradually adding automation features.
+Currently supports opening commonly used developers and social websites.More sites can be added easily.
 
 ---
 
@@ -19,15 +20,31 @@ The project focuses on writing clean, modular code and gradually adding automati
 - Modular architecture ('commands','tts','main')
 - Easy to extend with new commands
 - Open websites
+- Includes a fun programming jokes command
 
 ---
 
+## How to Run
+1. Clone the repository
+2. Install the dependiences: pip install -r requirements.txt
+3. Run the project: python main.py
+
+---
+
+## Example Commands
+- who are you
+- who created you
+- open github
+- open youtube
+- joke
+
+---
 
 ## status
  Work in progress
  New commands,better structure, and more automation features will be added over time.
 
-
+---
 
  ## Author 
  Aryan Sonsurkar
