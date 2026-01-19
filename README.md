@@ -24,6 +24,7 @@ Currently supports opening commonly used developers and social websites.More sit
 - Includes System info like your username, current directory and your OS
 - datetime command with formatted date and time
 - Notes Management
+- Reminder System
 
 ---
 
@@ -43,6 +44,7 @@ Currently supports opening commonly used developers and social websites.More sit
 - system info or my pc
 - date or time
 - note show , note clear and note add <text>
+- remind me to study in 2 hours
 - help
 
 ---

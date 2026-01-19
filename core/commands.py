@@ -3,6 +3,7 @@ from modules.commands.web_apps import web_commands
 from modules.commands.jokes import jokes
 from modules.commands.system import system_status, datetime_info
 from modules.commands.notes import notes
+from modules.commands.reminder import remind
 
 def command_prompt():
     while True:
@@ -47,6 +48,9 @@ def command_prompt():
             
         elif "note" in cmd:
             notes(cmd)
+        
+        elif "remind me" in cmd:
+            remind(cmd)
 
         else:
             print("This is command is not available.")
