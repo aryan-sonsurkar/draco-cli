@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from core.tts import speak
 
 def system_status():
@@ -17,3 +18,8 @@ def system_status():
     """
     print(info)
     speak(info)
+
+def datetime_info():
+    reply = datetime.now()
+    print(reply)
+    speak(reply)

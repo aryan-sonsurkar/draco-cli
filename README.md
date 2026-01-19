@@ -21,6 +21,8 @@ Currently supports opening commonly used developers and social websites.More sit
 - Easy to extend with new commands
 - Open websites
 - Includes a fun programming jokes command
+- Includes System info like your username, current directory and your OS
+- Tells todays date and time
 
 ---
 
@@ -37,6 +39,8 @@ Currently supports opening commonly used developers and social websites.More sit
 - open github
 - open youtube
 - joke
+- system info or my pc
+- help
 
 ---
 
