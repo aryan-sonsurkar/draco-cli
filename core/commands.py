@@ -23,7 +23,7 @@ def command_prompt():
             speak(reply)
 
         elif cmd=="exit" or cmd=="quit":
-            reply = "Goodbye Bro!!!"
+            reply = "Shutting down systems.....Goodbye."
             print(reply)
             speak(reply)
             break
