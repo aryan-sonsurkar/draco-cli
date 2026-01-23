@@ -7,6 +7,8 @@ from modules.commands.reminder import remind
 from modules.commands.calc_gen import generate_calculator_code,solve_calculator
 from modules.commands.fallback import fallback
 from modules.commands.essay_writer import essay_writer
+from modules.commands.explainer import explainer,motivater
+from modules.commands.algo_gen import algo_gen
 
 def command_prompt():
     while True:
@@ -103,6 +105,21 @@ def command_prompt():
             essay = essay_writer(cmd)
             print(essay)
             speak("Here is your essay....")
+        
+        elif "explain" in cmd:
+            explain = explainer(cmd)
+            print(explain)
+            speak(explain)
+        
+        elif "write algorithm for" in cmd:
+            algorithm = algo_gen(cmd)
+            print(algorithm)
+            speak(algorithm)
+        
+        elif "motivate" in cmd:
+            motivation = motivater()
+            print(motivation)
+            speak(motivation)
 
         else:
             reply = fallback(cmd)
