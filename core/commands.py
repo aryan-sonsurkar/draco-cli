@@ -4,11 +4,12 @@ from modules.commands.jokes import jokes
 from modules.commands.system import system_status, datetime_info
 from modules.commands.notes import notes
 from modules.commands.reminder import remind
-from modules.commands.calc_gen import generate_calculator_code,solve_calculator
-from modules.commands.fallback import fallback
-from modules.commands.essay_writer import essay_writer
-from modules.commands.explainer import explainer,motivater
-from modules.commands.algo_gen import algo_gen
+from modules.Ollama.calc_gen import generate_calculator_code,solve_calculator
+from modules.Ollama.fallback import fallback
+from modules.Ollama.essay_writer import essay_writer
+from modules.Ollama.explainer import explainer,motivater
+from modules.Ollama.algo_gen import algo_gen
+from modules.Ollama.analyzer import analyze
 
 def command_prompt():
     while True:
@@ -120,6 +121,15 @@ def command_prompt():
             motivation = motivater()
             print(motivation)
             speak(motivation)
+        
+        elif cmd.startswith("analyze") or cmd.startswith("think"):
+            print("[SYSTEM ANALYSIS INITIATED]")
+            speak("SYSTEM ANALYSIS INITIATED")
+            reply = analyze(cmd)
+            print(reply)
+            speak(reply)
+            print("[ANALYSIS COMPLETED]")
+            speak("ANALYSIS COMPLETED")
 
         else:
             reply = fallback(cmd)

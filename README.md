@@ -31,6 +31,7 @@ Currently supports opening commonly used developers and social websites.More sit
 - Algorithm Generator
 - Explainer mode
 - Motivator
+- Think mode
 - Essay Writer
 
 ---
