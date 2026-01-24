@@ -28,12 +28,15 @@ Currently supports opening commonly used developers and social websites.More sit
 - Self-Introduction and system-identity response
 - AI-Powered calculator using ollama
 - AI Fallback
+- Algorithm Generator
+- Explainer mode
+- Motivator
 - Essay Writer
 
 ---
 
 ## How to Run
-Download and ollama (llama3) as it is the brain of draco.
+Download ollama (llama3) as it is the brain of draco.
 
 1. Clone the repository
 2. Install the dependiences: pip install -r requirements.txt
