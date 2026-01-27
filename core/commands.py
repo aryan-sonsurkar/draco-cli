@@ -15,6 +15,7 @@ from modules.Automations.file_opener import open_file_or_folder
 from modules.Ollama.writers.reflector import reflect
 from modules.Automations.typer import draco_type
 from modules.Automations.web_searcher import draco_search
+from modules.Automations.winding_up_system import wind_up
 
 def command_prompt():
     while True:
@@ -175,6 +176,9 @@ def command_prompt():
         elif cmd.startswith("search"):
             cmd = cmd.replace("search","").strip()
             draco_search(cmd)
+        
+        elif "end of the day" in cmd:
+            wind_up()
 
         else:
             reply = fallback(cmd)
