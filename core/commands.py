@@ -1,3 +1,4 @@
+import sys
 from core.tts import speak
 from modules.Brain.web_apps import web_commands
 from modules.Brain.jokes import jokes
@@ -19,23 +20,33 @@ from modules.Automations.winding_up_system import wind_up
 from modules.Automations.quick_actions import open_coding_setuo,open_exam_setup,open_study_setup
 from modules.Automations.jarvis_theme import jarvis
 from modules.Brain.voice_listener import listen_cmd
+from core import state
 
+def choose_mode():
+    if state.INPUT_MODE is None:
+        mode = input("Choose input mode (text/voice):   ").lower()
+        state.INPUT_MODE = "voice" if "voice" in mode else "text"
+        speak(f"{state.INPUT_MODE} mode activated")
+    
 def command_prompt():
+    choose_mode()
     while True:
-        mode = input("\nType or Voice? (type/voice): ").lower()
-        if mode == "voice":
+        if state.INPUT_MODE == "voice":
             cmd = listen_cmd()
             if not cmd:
                 continue
+            print(f"You said: {cmd}")
         else:
-            cmd = input("\nEnter your command:   ")
-            cmd = cmd.lower()
+            cmd = input("You:  ").lower()
+        
+        handle_command(cmd)
 
+def handle_command(cmd):
         if cmd=="who are you":
             reply = "I am Draco CLI. A project made for automating tasks."
             print(reply)
             speak(reply)
-        
+            
         elif cmd=="who created you":
             reply = "My master Aryan Sonsurkar created me to learn python deeply and automate his tasks."
             print(reply)
@@ -45,7 +56,7 @@ def command_prompt():
             reply = "Shutting down systems.....Goodbye."
             print(reply)
             speak(reply)
-            break
+            sys.exit(0)
         
         elif cmd=="what features do you have":
             print("I can automate things for you..This is my feature list:-\nIntroduction of myself\ncan speak output\n")
