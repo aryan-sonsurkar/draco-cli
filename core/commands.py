@@ -17,6 +17,7 @@ from modules.Automations.typer import draco_type
 from modules.Automations.web_searcher import draco_search
 from modules.Automations.winding_up_system import wind_up
 from modules.Automations.quick_actions import open_coding_setuo,open_exam_setup,open_study_setup
+from modules.Automations.jarvis_theme import jarvis
 
 def command_prompt():
     while True:
@@ -189,6 +190,9 @@ def command_prompt():
 
         elif cmd=="exam prep setup" or cmd=="open exam prep setup" or cmd=="let's study for exam":
             open_exam_setup()
+
+        elif "daddy's home" in cmd or "I am back" in cmd or "iron man mode" in cmd or "wake up draco" in cmd:
+            jarvis()
 
         else:
             reply = fallback(cmd)

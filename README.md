@@ -39,7 +39,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - Smart web search that searches the internet, analyzes top results using AI, and explains - them in simple language
 - End-of-Day Wind Up system that closes active workspace tasks, secures the system, and  allows the user to choose between shutting down or locking the system
 - Quick Actions Hub (Automating setup)
-
+- Arrival Routine (Jarvis Mode)
 ---
 
 ## How to Run
@@ -65,6 +65,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - introduce or introduce yourself
 - end of the day
 - open coding setup
+- daddy's home
 - help
 
 ---
