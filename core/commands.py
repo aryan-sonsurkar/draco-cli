@@ -18,11 +18,18 @@ from modules.Automations.web_searcher import draco_search
 from modules.Automations.winding_up_system import wind_up
 from modules.Automations.quick_actions import open_coding_setuo,open_exam_setup,open_study_setup
 from modules.Automations.jarvis_theme import jarvis
+from modules.Brain.voice_listener import listen_cmd
 
 def command_prompt():
     while True:
-        cmd = input("\nEnter your command: \n")
-        cmd = cmd.lower()
+        mode = input("\nType or Voice? (type/voice): ").lower()
+        if mode == "voice":
+            cmd = listen_cmd()
+            if not cmd:
+                continue
+        else:
+            cmd = input("\nEnter your command:   ")
+            cmd = cmd.lower()
 
         if cmd=="who are you":
             reply = "I am Draco CLI. A project made for automating tasks."
