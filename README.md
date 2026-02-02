@@ -42,6 +42,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - Quick Actions Hub (Automating setup)
 - Arrival Routine (Jarvis Mode)
 - macro feature
+- Pomodoro Timer
 ---
 
 ## How to Run

@@ -22,6 +22,8 @@ from modules.Automations.jarvis_theme import jarvis
 from modules.Brain.voice_listener import listen_cmd
 from core import state
 from modules.Automations.macros_runner import list_macros, show_macro, run_macro
+from modules.Brain.study_timer import start_study_timer
+import time
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -233,6 +235,12 @@ def handle_command(cmd):
 
             else:
                 print("Invalid macro command.")
+
+        elif cmd in ["study","focus","pomodoro"]:
+            print("Entering Study Mode...\n")
+            speak("Entering Study Mode")
+            time.sleep(1)
+            start_study_timer()
 
         else:
             reply = fallback(cmd)
