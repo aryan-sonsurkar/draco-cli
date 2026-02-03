@@ -43,6 +43,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - Arrival Routine (Jarvis Mode)
 - macro feature
 - Pomodoro Timer
+- Assignment Writer - It creates a draft for you properly don't rely on this feature to blindly do any assignment...It is designed to help you make an draft of that particular assignment.
 ---
 
 ## How to Run

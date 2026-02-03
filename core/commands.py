@@ -1,4 +1,5 @@
 import sys
+import time
 from core.tts import speak
 from modules.Brain.web_apps import web_commands
 from modules.Brain.jokes import jokes
@@ -23,7 +24,7 @@ from modules.Brain.voice_listener import listen_cmd
 from core import state
 from modules.Automations.macros_runner import list_macros, show_macro, run_macro
 from modules.Brain.study_timer import start_study_timer
-import time
+from modules.Ollama.writers.assignment_writer import assignment_writer
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -241,7 +242,10 @@ def handle_command(cmd):
             speak("Entering Study Mode")
             time.sleep(1)
             start_study_timer()
-
+        
+        elif cmd=="write assignment" or cmd=="assignment":
+            assignment_writer()
+        
         else:
             reply = fallback(cmd)
             print(reply)
