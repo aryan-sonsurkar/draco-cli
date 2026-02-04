@@ -25,6 +25,7 @@ from core import state
 from modules.Automations.macros_runner import list_macros, show_macro, run_macro
 from modules.Brain.study_timer import start_study_timer
 from modules.Ollama.writers.assignment_writer import assignment_writer
+from modules.Ollama.writers.assignment_enhancer import enhance_assignment
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -246,6 +247,9 @@ def handle_command(cmd):
         elif cmd=="write assignment" or cmd=="assignment":
             assignment_writer()
         
+        elif "enhance assignment" in cmd:
+            enhance_assignment()
+
         else:
             reply = fallback(cmd)
             print(reply)
