@@ -26,6 +26,7 @@ from modules.Automations.macros_runner import list_macros, show_macro, run_macro
 from modules.Brain.study_timer import start_study_timer
 from modules.Ollama.writers.assignment_writer import assignment_writer
 from modules.Ollama.writers.assignment_enhancer import enhance_assignment
+from modules.Brain.decision_assistant import decision_assistant
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -249,6 +250,9 @@ def handle_command(cmd):
         
         elif "enhance assignment" in cmd:
             enhance_assignment()
+        
+        elif "decide" in cmd or "choose" in cmd:
+            decision_assistant()
 
         else:
             reply = fallback(cmd)

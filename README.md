@@ -45,6 +45,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - Pomodoro Timer
 - Assignment Writer - It creates a draft for you properly don't rely on this feature to blindly do any assignment...It is designed to help you make an draft of that particular assignment.
 - Assignment Enhancer - First copy your text then give command to draco to enhance assignment and place the cursor in word where you want it will auto type for you.
+- Decision Assistant : it decides for you based on your energy and deadlines
 
 ---
 
