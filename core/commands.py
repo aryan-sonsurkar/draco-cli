@@ -27,6 +27,7 @@ from modules.Brain.study_timer import start_study_timer
 from modules.Ollama.writers.assignment_writer import assignment_writer
 from modules.Ollama.writers.assignment_enhancer import enhance_assignment
 from modules.Brain.decision_assistant import decision_assistant
+from modules.Brain.session import start_session, log_command, end_session
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -64,6 +65,10 @@ def handle_command(cmd):
             speak(reply)
             sys.exit(0)
         
+        elif cmd=="end session" or cmd=="session end":
+             end_session()
+             sys.exit(0)
+             
         elif cmd=="what features do you have":
             print("I can automate things for you..This is my feature list:-\nIntroduction of myself\ncan speak output\n")
             speak("I can automate things for you..This is my feature list")
