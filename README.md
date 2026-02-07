@@ -68,6 +68,11 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - note add 
 - note show
 - note clear
+- assignment
+- study timer or pomodoro timer
+- decide
+- macro list/show/coding
+- write about <text>
 - remind me to study in 2 hours
 - introduce or introduce yourself
 - end of the day
