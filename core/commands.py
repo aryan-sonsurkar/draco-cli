@@ -28,6 +28,7 @@ from modules.Ollama.writers.assignment_writer import assignment_writer
 from modules.Ollama.writers.assignment_enhancer import enhance_assignment
 from modules.Brain.decision_assistant import decision_assistant
 from modules.Brain.session import start_session, log_command, end_session
+from modules.Brain.code_explainer import explain_code
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -144,7 +145,7 @@ def handle_command(cmd):
             print(essay)
             speak("Here is your essay....")
         
-        elif "explain" in cmd:
+        elif "explain me this" in cmd:
             explain = explainer(cmd)
             print(explain)
             speak(explain)
@@ -258,6 +259,9 @@ def handle_command(cmd):
         
         elif "decide" in cmd or "choose" in cmd:
             decision_assistant()
+        
+        elif "explain my code" in cmd or "explain code" in cmd:
+            explain_code()
 
         else:
             reply = fallback(cmd)
