@@ -29,6 +29,10 @@ from modules.Ollama.writers.assignment_enhancer import enhance_assignment
 from modules.Brain.decision_assistant import decision_assistant
 from modules.Brain.session import start_session, log_command, end_session
 from modules.Brain.code_explainer import explain_code
+from modules.Automations.boilerplate import (
+    create_web_project,
+    create_python_project
+)
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -262,6 +266,33 @@ def handle_command(cmd):
         
         elif "explain my code" in cmd or "explain code" in cmd:
             explain_code()
+        
+        elif cmd.startswith("new"):
+            parts = cmd.split()
+
+            if len(parts) < 3:
+                reply = "Usage: new web <project_name> or new python <project_name>"
+                print(reply)
+                speak(reply)
+                return
+
+            project_type = parts[1]
+            project_name = parts[2]
+
+            if project_type == "web":
+                reply = create_web_project(project_name)
+                print(reply)
+                speak(reply)
+
+            elif project_type == "python":
+                reply = create_python_project(project_name)
+                print(reply)
+                speak(reply)
+
+            else:
+                reply = "Unknown project type. Available: web, python."
+                print(reply)
+                speak(reply)
 
         else:
             reply = fallback(cmd)

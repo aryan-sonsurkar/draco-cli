@@ -47,6 +47,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - Assignment Enhancer - First copy your text then give command to draco to enhance assignment and place the cursor in word where you want it will auto type for you.
 - Decision Assistant : it decides for you based on your energy and deadlines
 - Code Explainer
+- An automation feature that  instantly generates ready-to-use project boilerplates (web or Python) with a single command.
 
 ---
 
