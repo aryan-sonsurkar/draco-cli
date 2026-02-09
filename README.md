@@ -48,6 +48,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - Decision Assistant : it decides for you based on your energy and deadlines
 - Code Explainer
 - An automation feature that  instantly generates ready-to-use project boilerplates (web or Python) with a single command.
+- C bolierplate writer
 
 ---
 
