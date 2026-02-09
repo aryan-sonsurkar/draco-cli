@@ -5,6 +5,14 @@ import subprocess
 from modules.Ollama.ollama_helper import ask_ollama
 from core.tts import speak
 
+def press_keys(*keys, delay=0.5):
+    for key in keys:
+        pyautogui.press(key)
+        time.sleep(delay)
+
+def raw_type(text, delay=0.03):
+    pyautogui.write(text, interval=delay)
+
 def type_like_human(text):
     for char in text:
         pyautogui.typewrite(char)

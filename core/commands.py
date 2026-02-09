@@ -33,6 +33,7 @@ from modules.Automations.boilerplate import (
     create_web_project,
     create_python_project
 )
+from modules.Automations.c_practical import write_c_boilerplate
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -293,6 +294,9 @@ def handle_command(cmd):
                 reply = "Unknown project type. Available: web, python."
                 print(reply)
                 speak(reply)
+        
+        elif cmd == "practical c" or cmd == "c practical":
+            write_c_boilerplate()
 
         else:
             reply = fallback(cmd)
