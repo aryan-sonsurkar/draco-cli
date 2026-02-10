@@ -34,6 +34,12 @@ from modules.Automations.boilerplate import (
     create_python_project
 )
 from modules.Automations.c_practical import write_c_boilerplate
+from modules.Automations.practical_manager import (
+    add_practical,
+    mark_done,
+    list_practicals,
+    practical_status
+)
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -297,6 +303,32 @@ def handle_command(cmd):
         
         elif cmd == "practical c" or cmd == "c practical":
             write_c_boilerplate()
+        
+        elif cmd.startswith("practical"):
+            parts = cmd.split()
+
+            if len(parts) == 1:
+                reply = "Usage: practical add <num> | practical done <num> | practical list | practical status"
+                print(reply)
+                speak(reply)
+                return
+
+            if parts[1] == "add" and len(parts) == 3:
+                add_practical(parts[2])
+
+            elif parts[1] == "done" and len(parts) == 3:
+                mark_done(parts[2])
+
+            elif parts[1] == "list":
+                list_practicals()
+
+            elif parts[1] == "status":
+                practical_status()
+
+            else:
+                reply = "Invalid practical command."
+                print(reply)
+                speak(reply)
 
         else:
             reply = fallback(cmd)
