@@ -40,6 +40,7 @@ from modules.Automations.practical_manager import (
     list_practicals,
     practical_status
 )
+from modules.Automations.commands_center import run_command_center
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -329,6 +330,9 @@ def handle_command(cmd):
                 reply = "Invalid practical command."
                 print(reply)
                 speak(reply)
+
+        elif cmd == "command center":
+            run_command_center()
 
         else:
             reply = fallback(cmd)
