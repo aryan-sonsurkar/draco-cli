@@ -1,109 +1,163 @@
 ## draco-cli
-Draco is a command-line assistant built step by step while learning Python.
-The project focuses on writing clean, modular code and gradually adding powerful automation and AI-driven features.
-Instead of creating small isolated scripts, Draco is designed as a real, extensible CLI tool with practical use cases.
+
+Draco is a command-line assistant built step by step while learning Python.  
+The project emphasizes clean architecture, modular design, and practical automation rather than isolated scripts.
+
+Draco is designed as a real, extensible CLI system capable of combining automation, AI assistance, and workflow optimization.
 
 ---
 
 ## Purpose
-- Practice Python fundamentals
-- Automate everyday tasks
-- Improve problem-solving and debugging skills
-- Build a real-world CLI assistant
+
+- Practice Python fundamentals  
+- Build real-world automation skills  
+- Improve debugging and problem-solving ability  
+- Develop a system-level CLI assistant  
 
 ---
 
-## Features
-- Interactive command-line interface
-- Text/Voice Mode (both are available)
-- Predefined conversational commands (e.g., "who are you", "who created you")
-- Text-to-Speech (TTS) support using pyttsx3
-- Modular architecture (commands, tts, main, automations)
-- Easy to extend with new commands
-- Open commonly used developer and social websites
-- Programming jokes command
-- System information (username, operating system, current directory)
-- Date and time with formatted output
-- Notes management (add, show, clear)
-- Reminder system
-- Self-introduction and system-identity responses
-- AI-powered calculator using Ollama
-- AI fallback for unknown commands
-- Algorithm generator
-- Explainer mode for simplified explanations
-- Motivator and Think mode
-- File and folder opener
-- Essay writer
-- Daily reflector
-- Git helper
-- Human-like typing automation where AI-generated content is typed character by character - into Notepad
-- Smart web search that searches the internet, analyzes top results using AI, and explains - them in simple language
-- End-of-Day Wind Up system that closes active workspace tasks, secures the system, and  allows the user to choose between shutting down or locking the system
-- Quick Actions Hub (Automating setup)
-- Arrival Routine (Jarvis Mode)
-- macro feature
-- Pomodoro Timer
-- Assignment Writer - It creates a draft for you properly don't rely on this feature to blindly do any assignment...It is designed to help you make an draft of that particular assignment.
-- Assignment Enhancer - First copy your text then give command to draco to enhance assignment and place the cursor in word where you want it will auto type for you.
-- Decision Assistant : it decides for you based on your energy and deadlines
-- Code Explainer
-- An automation feature that  instantly generates ready-to-use project boilerplates (web or Python) with a single command.
-- C bolierplate writer
-- practical manager
-- Command Center (OS Level Integration)
-- Project Generator Engine which writes code in notepad.(command : "draco project" or "project creator")
-- Scheduled Guild Wars Alert
-Draco can now monitor time and trigger scheduled voice alerts.
-- Syllabus Intelligence System
-Draco now supports structured syllabus management for academic workflows.
-- Question Generator from Notes
-Draco can generate exam-style questions from user-provided notes using Ollama.
-- 
+## Core Features
+
+- Interactive command-line interface  
+- Text and Voice Mode  
+- Text-to-Speech (pyttsx3)  
+- Modular architecture (commands, brain, automations, AI modules)  
+- Easy command extensibility  
 
 ---
 
-## How to Run
-1. Draco uses Ollama (llama3) as its AI engine.
-2. Clone the repository
-3. Install dependencies using the requirements file
-4. Run the project using the main Python file
+## Automation & System Capabilities
+
+- Website launcher  
+- File and folder opener  
+- Human-like typing automation  
+- Smart web search with AI analysis  
+- End-of-Day Wind Up System  
+- Quick Actions Hub  
+- Arrival Routine (Jarvis Mode)  
+- Pomodoro / Study Timer  
+- Practical Manager  
+- Scheduled Guild Wars Alert  
+- Command Center (OS-style live interface)
+
+---
+
+## AI Capabilities (Ollama)
+
+- AI-powered calculator  
+- AI fallback engine  
+- Algorithm generator  
+- Essay writer  
+- Explainer mode  
+- Code Explainer  
+- Question Generator from Notes  
+- Project Generator Engine  
+
+---
+
+## Academic Utilities & Learning Utilities
+
+- Syllabus Intelligence System  
+  - Current subjects: C Programming, Data Structures  
+
+- Question Generator from Notes  
+  - Generates Viva, MCQs, Short & Long Questions  
+
+- C Boilerplate Writer  
+
+- Assignment Writer & Enhancer 
+
+- Adaptive AI Tutor System  
+
+  Draco operates as a personalized learning assistant:
+
+  • Train by Topic (Skill Tutor)  
+  • Train from Saved Notes (Notes Tutor)  
+  • Weak Concept Tracking  
+  • AI-Powered Conceptual Grading  
+  • Reinforcement-Based Questioning
+
+---
+
+- Adaptive AI Teaching System (Skill Tutor + Notes Tutor)
+
+  Draco now functions as an intelligent teaching machine powered by Ollama.
+
+  - Skill Tutor Mode  
+    Draco generates dynamic conceptual questions from any topic provided by the user.
+
+  - Notes Tutor Mode  
+    Users can store their own study notes and let Draco generate infinite questions directly from saved material.
+
+  - AI-Based Evaluation  
+    Answers are evaluated conceptually using Ollama instead of fragile string matching.
+
+  - Weakness Memory Engine  
+    Incorrectly answered questions are stored automatically and revisited later for reinforcement learning.
+
+  - Adaptive Revision Behavior  
+    Questions previously answered incorrectly are prioritized until mastered.
+
+  - Persistent Notes Storage  
+    Notes can be saved once and reused anytime for AI-driven practice sessions.
+
+---
+
+## Project Generation Engine
+
+Draco can generate project code from natural language descriptions and type them directly into an editor.
+
+Example commands:
+
+draco project
+project creator
+
+---
+
+## Tutor Commands
+
+train skill        → Practice any topic using AI-generated questions  
+save notes         → Store study material for future sessions  
+train notes        → Generate questions from saved notes  
+show weak          → View previously missed questions  
+clear weak         → Reset weakness memory
 
 ---
 
 ## Example Commands
-- who are you
-- who created you
-- open website github
-- open website youtube
-- joke
-- system info or my pc
-- date or time
-- note add 
-- note show
-- note clear
-- assignment
-- study timer or pomodoro timer
-- decide
-- explain my code
-- macro list/show/coding
-- write about <text>
-- remind me to study in 2 hours
-- introduce or introduce yourself
-- end of the day
-- open coding setup
-- daddy's home
-- draco project or project creator
-- help
+
+- who are you  
+- system status  
+- open website github  
+- note add / note show  
+- generate questions  
+- syllabus show c programming  
+- command center  
+- practical list / practical done  
+- draco project  
+- end of the day  
+- help  
+
+---
+
+## How to Run
+
+1. Install Ollama and required model (e.g., llama3)  
+2. Clone the repository  
+3. Install dependencies from requirements file  
+4. Run the main Python file  
 
 ---
 
 ## Status
-Work in progress.
-New commands, improved structure, and more advanced automation features will be added over  time.
+
+Work in progress.  
+Draco is continuously evolving with new automation systems, AI features, and usability improvements.
 
 ---
 
 ## Author
-Aryan Sonsurkar
-Computer Engineering Student
-Learning Python, CLI tools, automation, and AI-driven systems
+
+Aryan Sonsurkar  
+Computer Engineering Student  
+Focused on Python, automation, CLI systems, and AI-driven workflows  

@@ -44,6 +44,7 @@ from modules.Automations.commands_center import run_command_center
 from modules.Ollama.generators.project_gen import project_gen, explain_last_project
 from modules.Brain.syllabus_manager import syllabus_list, syllabus_show, syllabus_search
 from modules.Ollama.writers.question_gen import generate_questions
+from modules.Brain.tutor import train_skill, train_notes, show_weak, clear_weak, save_notes
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -361,8 +362,22 @@ def handle_command(cmd):
         
         elif cmd == "generate questions":
             generate_questions()
-
-
+ 
+        elif cmd == "train skill":
+            train_skill()
+        
+        elif cmd == "train notes":
+            train_notes()
+        
+        elif cmd == "show weak":
+            show_weak()
+        
+        elif cmd == "clear weak":
+            clear_weak()
+        
+        elif cmd == "save notes":
+            save_notes()
+            
         else:
             reply = fallback(cmd)
             print(reply)

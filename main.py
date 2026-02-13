@@ -1,4 +1,3 @@
-import os
 import threading
 from core.commands import command_prompt
 from core.tts import speak
@@ -10,14 +9,20 @@ def main():
     print("Welcome to Draco CLI")
     print("----------------------")
 
-    speak("Initializing systems....")
-    speak("Loading modules.....")
-    speak("Draco is Online.")
+    speak("Initializing systems")
+    speak("Loading modules")
+    speak("Draco is Online")
 
     start_session()
 
-    scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
-    scheduler_thread.start()
+    try:
+        scheduler_thread = threading.Thread(
+            target=run_scheduler,
+            daemon=True
+        )
+        scheduler_thread.start()
+    except Exception as e:
+        print("Scheduler failed:", e)
 
     command_prompt()
 
