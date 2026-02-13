@@ -51,6 +51,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - C bolierplate writer
 - practical manager
 - Command Center (OS Level Integration)
+- Project Creator which writes code in notepad.(command : "draco project" or "project creator")
 
 ---
 
@@ -84,6 +85,7 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - end of the day
 - open coding setup
 - daddy's home
+- draco project or project creator
 - help
 
 ---

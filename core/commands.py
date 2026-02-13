@@ -41,6 +41,7 @@ from modules.Automations.practical_manager import (
     practical_status
 )
 from modules.Automations.commands_center import run_command_center
+from modules.Ollama.generators.project_gen import project_gen
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -333,7 +334,10 @@ def handle_command(cmd):
 
         elif cmd == "command center":
             run_command_center()
-
+        
+        elif "create a project" in cmd or "project creator" in cmd or "draco project" in cmd:
+            project_gen()
+            
         else:
             reply = fallback(cmd)
             print(reply)
