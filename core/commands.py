@@ -41,7 +41,9 @@ from modules.Automations.practical_manager import (
     practical_status
 )
 from modules.Automations.commands_center import run_command_center
-from modules.Ollama.generators.project_gen import project_gen
+from modules.Ollama.generators.project_gen import project_gen, explain_last_project
+from modules.Brain.syllabus_manager import syllabus_list, syllabus_show, syllabus_search
+from modules.Ollama.writers.question_gen import generate_questions
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -158,7 +160,7 @@ def handle_command(cmd):
             print(essay)
             speak("Here is your essay....")
         
-        elif "explain me this" in cmd:
+        elif "explain me " in cmd:
             explain = explainer(cmd)
             print(explain)
             speak(explain)
@@ -337,7 +339,30 @@ def handle_command(cmd):
         
         elif "create a project" in cmd or "project creator" in cmd or "draco project" in cmd:
             project_gen()
-            
+        
+        elif "explain last project" in cmd or "explain this project" in cmd:
+            explain_last_project()
+        
+        elif cmd.startswith("syllabus"):
+            parts = cmd.split()
+
+            if len(parts) == 1 or parts[1] == "list":
+                syllabus_list()
+
+            elif parts[1] == "show" and len(parts) >= 3:
+                syllabus_show(" ".join(parts[2:]))
+
+            elif parts[1] == "search" and len(parts) >= 3:
+                syllabus_search(" ".join(parts[2:]))
+
+            else:
+                print("Invalid syllabus command.")
+                speak("Invalid syllabus command.")
+        
+        elif cmd == "generate questions":
+            generate_questions()
+
+
         else:
             reply = fallback(cmd)
             print(reply)

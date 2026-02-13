@@ -1,0 +1,22 @@
+{
+  "c programming": [
+    "Basics of C",
+    "Variables and Data Types",
+    "Operators",
+    "Control Statements",
+    "Functions",
+    "Arrays",
+    "Pointers",
+    "Structures"
+  ],
+
+  "data structures": [
+    "Introduction",
+    "Arrays",
+    "Linked List",
+    "Stack",
+    "Queue",
+    "Trees",
+    "Graphs"
+  ]
+}

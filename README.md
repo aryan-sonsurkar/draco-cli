@@ -51,7 +51,14 @@ Instead of creating small isolated scripts, Draco is designed as a real, extensi
 - C bolierplate writer
 - practical manager
 - Command Center (OS Level Integration)
-- Project Creator which writes code in notepad.(command : "draco project" or "project creator")
+- Project Generator Engine which writes code in notepad.(command : "draco project" or "project creator")
+- Scheduled Guild Wars Alert
+Draco can now monitor time and trigger scheduled voice alerts.
+- Syllabus Intelligence System
+Draco now supports structured syllabus management for academic workflows.
+- Question Generator from Notes
+Draco can generate exam-style questions from user-provided notes using Ollama.
+- 
 
 ---
 
