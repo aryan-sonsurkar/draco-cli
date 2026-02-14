@@ -49,7 +49,8 @@ from modules.Automations.file_workflow import (
     create_folder,
     copy_clipboard_file,
     move_clipboard_file,
-    send_clipboard_file_whatsapp
+    send_clipboard_file_whatsapp,
+    send_file_to_contact
 )
 
 def choose_mode():
@@ -402,6 +403,9 @@ def handle_command(cmd):
 
         elif "send file on whatsapp" in cmd:
             print(send_clipboard_file_whatsapp())
+        
+        elif cmd.startswith("send file to"):
+            print(send_file_to_contact(cmd))
 
         else:
             reply = fallback(cmd)
