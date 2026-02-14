@@ -50,11 +50,11 @@ Draco detects files from the clipboard, launches WhatsApp Desktop, performs visu
 
 Automation flow:
 
-• Detect WhatsApp interface  
-• Click Attach Button  
-• Select Document Upload  
-• Inject File Path  
-• Trigger Send Action  
+- Detect WhatsApp interface  
+- Click Attach Button  
+- Select Document Upload  
+- Inject File Path  
+- Trigger Send Action  
 
 Key capabilities:
 
@@ -67,7 +67,7 @@ Key capabilities:
 Example usage:
 
 1. Select any file in File Explorer  
-2. Press Ctrl+C  
+2. Press Ctrl+Shift+C  
 3. Run Draco command:
 
 send file on whatsapp
