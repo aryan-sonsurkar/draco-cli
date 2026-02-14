@@ -1,0 +1,100 @@
+import os
+import shutil
+import time
+import subprocess
+import pyperclip
+import pyautogui
+
+
+def get_clipboard_file():
+    data = pyperclip.paste()
+
+    if not data:
+        return None
+
+    data = data.strip().strip('"').strip("'")
+
+    if os.path.exists(data):
+        return data
+
+    return None
+
+
+
+def create_folder(folder_name, base_path=None):
+    if base_path is None:
+        base_path = os.getcwd()
+
+    path = os.path.join(base_path, folder_name)
+
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    return path
+
+
+def copy_clipboard_file(destination_folder):
+    file_path = get_clipboard_file()
+
+    if not file_path:
+        return "No file found in clipboard."
+
+    shutil.copy(file_path, destination_folder)
+    return f"File copied to {destination_folder}"
+
+
+def move_clipboard_file(destination_folder):
+    file_path = get_clipboard_file()
+
+    if not file_path:
+        return "No file found in clipboard."
+
+    shutil.move(file_path, destination_folder)
+    return f"File moved to {destination_folder}"
+
+
+def open_whatsapp():
+    try:
+        os.startfile("whatsapp:")
+        time.sleep(5)
+        return True
+    except:
+        return False
+
+def send_clipboard_file_whatsapp():
+    file_path = get_clipboard_file()
+
+    if not file_path:
+        return "No file found in clipboard."
+
+    if not open_whatsapp():
+        return "WhatsApp not found."
+
+    time.sleep(3)
+
+    attach_btn = pyautogui.locateCenterOnScreen("assets/whatsapp_attach.png")
+
+    if not attach_btn:
+        return "Attach button not detected."
+
+    pyautogui.click(attach_btn)
+    time.sleep(1)
+
+    document_btn = pyautogui.locateCenterOnScreen("assets/whatsapp_document.png")
+
+    if not document_btn:
+        return "Document button not detected."
+
+    pyautogui.click(document_btn)
+    time.sleep(2)
+
+    pyperclip.copy(file_path)
+    pyautogui.hotkey("ctrl", "v")
+    time.sleep(1)
+
+    pyautogui.press("enter")
+    time.sleep(2)
+
+    pyautogui.press("enter")
+
+    return "File sent via WhatsApp."

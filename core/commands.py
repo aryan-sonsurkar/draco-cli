@@ -45,6 +45,12 @@ from modules.Ollama.generators.project_gen import project_gen, explain_last_proj
 from modules.Brain.syllabus_manager import syllabus_list, syllabus_show, syllabus_search
 from modules.Ollama.writers.question_gen import generate_questions
 from modules.Brain.tutor import train_skill, train_notes, show_weak, clear_weak, save_notes
+from modules.Automations.file_workflow import (
+    create_folder,
+    copy_clipboard_file,
+    move_clipboard_file,
+    send_clipboard_file_whatsapp
+)
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -377,7 +383,26 @@ def handle_command(cmd):
         
         elif cmd == "save notes":
             save_notes()
-            
+
+        elif cmd.startswith("create folder"):
+            name = cmd.replace("create folder", "").replace("named", "").strip()
+            path = create_folder(name)
+            print(f"Folder created: {path}")
+            speak("Folder created")
+
+        elif cmd.startswith("copy file"):
+            name = cmd.replace("copy file to", "").strip()
+            dest = create_folder(name)
+            print(copy_clipboard_file(dest))
+
+        elif cmd.startswith("move file"):
+            name = cmd.replace("move file to", "").strip()
+            dest = create_folder(name)
+            print(move_clipboard_file(dest))
+
+        elif "send file on whatsapp" in cmd:
+            print(send_clipboard_file_whatsapp())
+
         else:
             reply = fallback(cmd)
             print(reply)
