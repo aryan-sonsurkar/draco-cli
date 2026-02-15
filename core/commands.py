@@ -52,6 +52,7 @@ from modules.Automations.file_workflow import (
     send_clipboard_file_whatsapp,
     send_file_to_contact
 )
+import core.state as state
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -406,6 +407,18 @@ def handle_command(cmd):
         
         elif cmd.startswith("send file to"):
             print(send_file_to_contact(cmd))
+
+        elif cmd == "speak hindi":
+            state.LANGUAGE = "hindi"
+            speak("Hindi mode activated")
+
+        elif cmd == "speak marathi":
+            state.LANGUAGE = "marathi"
+            speak("Marathi mode activated")
+
+        elif cmd == "speak english":
+            state.LANGUAGE = "english"
+            speak("English mode activated")
 
         else:
             reply = fallback(cmd)

@@ -3,5 +3,10 @@
         "name": "ritesh",
         "aliases": ["ritesh", "co-founder", "bro"],
         "whatsapp_search": "Ritesh"
+    },
+    {
+        "name": "mummy",
+        "aliases": ["mom", "mother", "mumma"],
+        "whatsapp_search": "Mummy"
     }
 ]

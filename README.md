@@ -20,7 +20,7 @@ Draco is designed as a real, extensible CLI system capable of combining automati
 
 - Interactive command-line interface  
 - Text and Voice Mode  
-- Text-to-Speech (pyttsx3)  
+- Text-to-Speech Engine (Multi-Language Enabled)
 - Modular architecture (commands, brain, automations, AI modules)  
 - Easy command extensibility  
 
@@ -39,6 +39,32 @@ Draco is designed as a real, extensible CLI system capable of combining automati
 - Practical Manager  
 - Scheduled Guild Wars Alert  
 - Command Center (OS-style live interface)
+
+### Multi-Language Voice System
+
+Draco now supports dynamic voice output adaptation based on the active language state.
+
+Instead of hardcoded speech responses, Draco routes all spoken text through a translation layer, allowing the assistant to operate across multiple languages without duplicating logic.
+
+Language behavior:
+
+- English (default system language)  
+- Hindi  
+- Marathi  
+
+When a language mode is active, Draco:
+
+- Translates responses in real time using Ollama  
+- Preserves original command logic  
+- Speaks output in the selected language  
+
+This architecture ensures that all modules remain language-agnostic while voice output becomes contextually adaptive.
+
+Example commands:
+
+speak hindi  
+speak marathi  
+speak english
 
 ### WhatsApp File Transfer Automation
 
