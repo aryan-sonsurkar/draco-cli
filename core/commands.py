@@ -53,6 +53,7 @@ from modules.Automations.file_workflow import (
     send_file_to_contact
 )
 import core.state as state
+from modules.Automations.ppt_gen import build_ppt
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -419,6 +420,12 @@ def handle_command(cmd):
         elif cmd == "speak english":
             state.LANGUAGE = "english"
             speak("English mode activated")
+        
+        elif cmd.startswith("ppt on"):
+            topic = cmd.replace("ppt on", "").strip()
+            reply = build_ppt(topic)
+            print(reply)
+            speak(reply)
 
         else:
             reply = fallback(cmd)

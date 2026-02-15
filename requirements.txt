@@ -7,3 +7,5 @@ SpeechRecognition
 pyaudio
 pyperclip
 opencv-python
+python-pptx
+edge-tts==1.2.2
