@@ -26,6 +26,41 @@ Draco is designed as a real, extensible CLI system capable of combining automati
 
 ---
 
+## Safety Mode
+
+Safety mode adds confirmations before running risky automations.
+
+Commands:
+
+safe mode on  
+safe mode off  
+safe mode status
+
+When enabled, Draco will ask for a y/n confirmation for actions like:
+
+- Typing automation (`draco type`, `draco write`, `write about`)
+- WhatsApp file sending (`send file on whatsapp`, `send file to ...`)
+
+---
+
+## Aliases
+
+Aliases let you create short commands that expand into longer commands.
+
+Commands:
+
+alias list  
+alias show <name>  
+alias add <name> <command>  
+alias remove <name>
+
+Example:
+
+alias add yt open website youtube  
+yt
+
+---
+
 ## Automation & System Capabilities
 
 - Website launcher  
@@ -205,6 +240,10 @@ clear weak         → Reset weakness memory
 - macro record coding
 - macro stop
 - macro coding --repeat 2
+- game chess
+- game make snake game but in terminal
+- game list
+- game run snake
 - safe mode on
 - safe mode status
 - safe mode off
