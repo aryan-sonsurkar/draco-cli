@@ -26,6 +26,36 @@ def log_file(file):
 def log_note(note):
     session_data["notes"].append(note)
 
+def get_recent_commands(limit=20):
+    try:
+        limit = int(limit)
+    except Exception:
+        limit = 20
+    if limit <= 0:
+        return []
+    return session_data.get("commands", [])[-limit:]
+
+def get_last_command():
+    commands = session_data.get("commands", [])
+    return commands[-1] if commands else None
+
+def load_previous_session_commands(limit=20):
+    try:
+        if not os.path.exists(SESSION_FILE):
+            return []
+        with open(SESSION_FILE, "r") as f:
+            data = json.load(f)
+        commands = data.get("commands", [])
+        try:
+            limit = int(limit)
+        except Exception:
+            limit = 20
+        if limit <= 0:
+            return []
+        return commands[-limit:]
+    except Exception:
+        return []
+
 def end_session():
     session_data["end_time"] = time.time()
     duration = round(
