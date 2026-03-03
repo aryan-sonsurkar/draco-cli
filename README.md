@@ -205,6 +205,12 @@ clear weak         → Reset weakness memory
 - macro record coding
 - macro stop
 - macro coding --repeat 2
+- safe mode on
+- safe mode status
+- safe mode off
+- alias add yt open website youtube
+- alias list
+- yt
 
 ---
 
