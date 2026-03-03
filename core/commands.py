@@ -55,6 +55,8 @@ from modules.Automations.file_workflow import (
     send_clipboard_file_whatsapp,
     send_file_to_contact
 )
+from modules.Games.chess_game import play_chess
+from modules.Games.game_generator import make_game, list_games, run_game
 import core.state as state
 
 
@@ -75,6 +77,15 @@ _HELP_ENTRIES = [
             ("safe mode on/off/status", "Confirm before risky actions"),
             ("exit / quit", "Exit Draco"),
             ("end session", "End the session and save summary"),
+        ],
+    },
+    {
+        "category": "Games",
+        "commands": [
+            ("game chess", "Play terminal chess vs Draco"),
+            ("game make <idea>", "Generate a terminal game from an idea"),
+            ("game list", "List generated games"),
+            ("game run <name>", "Run a generated game"),
         ],
     },
     {
@@ -299,6 +310,46 @@ def handle_command(cmd):
         global _macro_recording_name, _macro_recording_commands, _last_executed_command
 
         if _dispatch_core(cmd):
+            return
+
+        if cmd.startswith("game"):
+            parts = cmd.split(maxsplit=2)
+            if len(parts) == 1 or (len(parts) == 2 and parts[1] == "help"):
+                print("Usage:")
+                print("game chess")
+                print("game make <idea>")
+                print("game list")
+                print("game run <name>")
+                return
+
+            if parts[1] == "chess":
+                play_chess()
+                return
+
+            if parts[1] == "make":
+                idea = parts[2].strip() if len(parts) >= 3 else ""
+                make_game(idea)
+                return
+
+            if parts[1] == "list":
+                games = list_games()
+                if not games:
+                    print("No generated games found.")
+                    return
+                print("Generated games:")
+                for g in games:
+                    print(f"- {g}")
+                return
+
+            if parts[1] == "run":
+                name = parts[2].strip() if len(parts) >= 3 else ""
+                if not name:
+                    print("Usage: game run <name>")
+                    return
+                run_game(name)
+                return
+
+            print("Invalid game command.")
             return
 
         if cmd == "again":
