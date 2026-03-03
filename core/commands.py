@@ -1,6 +1,8 @@
 import sys
 import time
 import difflib
+import os
+import json
 from core.tts import speak
 from modules.Brain.web_apps import web_commands
 from modules.Brain.jokes import jokes
@@ -60,6 +62,9 @@ _macro_recording_name = None
 _macro_recording_commands = []
 _last_executed_command = None
 
+SAFE_MODE = False
+ALIAS_FILE = os.path.join("aliases.json")
+
 _HELP_ENTRIES = [
     {
         "category": "Core",
@@ -67,6 +72,7 @@ _HELP_ENTRIES = [
             ("help", "Show available commands (use: help <keyword>)"),
             ("history [n]", "Show recent commands"),
             ("again", "Run the last command again"),
+            ("safe mode on/off/status", "Confirm before risky actions"),
             ("exit / quit", "Exit Draco"),
             ("end session", "End the session and save summary"),
         ],
@@ -80,6 +86,15 @@ _HELP_ENTRIES = [
             ("macro record <name>", "Start recording commands into a macro"),
             ("macro stop", "Stop recording and save"),
             ("macro cancel", "Stop recording without saving"),
+        ],
+    },
+    {
+        "category": "Aliases",
+        "commands": [
+            ("alias list", "List aliases"),
+            ("alias show <name>", "Show an alias"),
+            ("alias add <name> <command>", "Create or overwrite an alias"),
+            ("alias remove <name>", "Remove an alias"),
         ],
     },
     {
@@ -134,6 +149,116 @@ def _suggest_command(cmd):
     return difflib.get_close_matches(cmd, candidates, n=3, cutoff=0.6)
 
 
+def _load_aliases():
+    if not os.path.exists(ALIAS_FILE):
+        return {}
+    try:
+        with open(ALIAS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _save_aliases(aliases):
+    with open(ALIAS_FILE, "w", encoding="utf-8") as f:
+        json.dump(aliases, f, indent=2)
+
+
+def _expand_alias(cmd):
+    aliases = _load_aliases()
+    # Exact-match expansion only (keeps behavior predictable)
+    expanded = aliases.get(cmd)
+    return expanded if isinstance(expanded, str) and expanded.strip() else cmd
+
+
+def _confirm_action(message):
+    if not SAFE_MODE:
+        return True
+    try:
+        ans = input(f"{message} (y/n): ").strip().lower()
+        return ans in ["y", "yes"]
+    except Exception:
+        return False
+
+
+def _dispatch_core(cmd):
+    global SAFE_MODE
+
+    if cmd == "safe mode on":
+        SAFE_MODE = True
+        print("Safe mode enabled.")
+        speak("Safe mode enabled")
+        return True
+
+    if cmd == "safe mode off":
+        SAFE_MODE = False
+        print("Safe mode disabled.")
+        speak("Safe mode disabled")
+        return True
+
+    if cmd in ["safe mode", "safe mode status"]:
+        status = "ON" if SAFE_MODE else "OFF"
+        print(f"Safe mode: {status}")
+        speak("Safe mode status")
+        return True
+
+    if cmd.startswith("alias"):
+        parts = cmd.split(maxsplit=3)
+        aliases = _load_aliases()
+
+        if len(parts) == 1 or (len(parts) == 2 and parts[1] == "help"):
+            print("Usage:")
+            print("alias list")
+            print("alias show <name>")
+            print("alias add <name> <command>")
+            print("alias remove <name>")
+            return True
+
+        if parts[1] == "list" and len(parts) == 2:
+            if not aliases:
+                print("No aliases found.")
+                return True
+            print("Available aliases:")
+            for name in sorted(aliases.keys()):
+                print(f"- {name}")
+            return True
+
+        if parts[1] == "show" and len(parts) == 3:
+            name = parts[2]
+            if name not in aliases:
+                print("Alias not found.")
+                return True
+            print(f"Alias '{name}': {aliases[name]}")
+            return True
+
+        if parts[1] == "remove" and len(parts) == 3:
+            name = parts[2]
+            if name not in aliases:
+                print("Alias not found.")
+                return True
+            del aliases[name]
+            _save_aliases(aliases)
+            print(f"Removed alias '{name}'.")
+            return True
+
+        if parts[1] == "add" and len(parts) >= 4:
+            name = parts[2].strip()
+            target = parts[3].strip()
+            if not name or not target:
+                print("Usage: alias add <name> <command>")
+                return True
+            aliases[name] = target
+            _save_aliases(aliases)
+            print(f"Saved alias '{name}' -> {target}")
+            return True
+
+        print("Invalid alias command.")
+        return True
+
+    return False
+
+
 
 def choose_mode():
     if state.INPUT_MODE is None:
@@ -154,6 +279,9 @@ def command_prompt():
 
         cmd = (cmd or "").strip().lower()
 
+        if cmd and not cmd.startswith("alias") and not cmd.startswith("safe mode"):
+            cmd = _expand_alias(cmd)
+
         global _macro_recording_name, _macro_recording_commands, _last_executed_command
 
         if _macro_recording_name and cmd and not cmd.startswith("macro record") and cmd not in ["macro stop", "macro cancel"]:
@@ -169,6 +297,9 @@ def command_prompt():
 
 def handle_command(cmd):
         global _macro_recording_name, _macro_recording_commands, _last_executed_command
+
+        if _dispatch_core(cmd):
+            return
 
         if cmd == "again":
             if _last_executed_command:
@@ -381,7 +512,8 @@ def handle_command(cmd):
         elif cmd.startswith("draco type") or cmd.startswith("draco write") or cmd.startswith("write about"):
             cmd = cmd.replace("draco type","").replace("draco write","").replace("write about","").strip()
             if cmd:
-                draco_type(cmd)
+                if _confirm_action("This will type automatically. Proceed?"):
+                    draco_type(cmd)
             else:
                 print("\nPlease provide what to type.\n")
                 speak("Please provide what to type.")
@@ -570,10 +702,12 @@ def handle_command(cmd):
             print(move_clipboard_file(dest))
 
         elif "send file on whatsapp" in cmd:
-            print(send_clipboard_file_whatsapp())
+            if _confirm_action("This will send a file on WhatsApp. Proceed?"):
+                print(send_clipboard_file_whatsapp())
         
         elif cmd.startswith("send file to"):
-            print(send_file_to_contact(cmd))
+            if _confirm_action("This will send a file on WhatsApp. Proceed?"):
+                print(send_file_to_contact(cmd))
 
         elif cmd == "speak hindi":
             state.LANGUAGE = "hindi"
