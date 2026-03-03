@@ -1,5 +1,6 @@
 import sys
 import time
+import difflib
 from core.tts import speak
 from modules.Brain.web_apps import web_commands
 from modules.Brain.jokes import jokes
@@ -22,12 +23,12 @@ from modules.Automations.quick_actions import open_coding_setuo,open_exam_setup,
 from modules.Automations.jarvis_theme import jarvis
 from modules.Brain.voice_listener import listen_cmd
 from core import state
-from modules.Automations.macros_runner import list_macros, show_macro, run_macro
+from modules.Automations.macros_runner import list_macros, show_macro, run_macro, save_macro
 from modules.Brain.study_timer import start_study_timer
 from modules.Ollama.writers.assignment_writer import assignment_writer
 from modules.Ollama.writers.assignment_enhancer import enhance_assignment
 from modules.Brain.decision_assistant import decision_assistant
-from modules.Brain.session import start_session, log_command, end_session
+from modules.Brain.session import start_session, log_command, end_session, get_recent_commands, load_previous_session_commands
 from modules.Brain.code_explainer import explain_code
 from modules.Automations.boilerplate import (
     create_web_project,
@@ -55,6 +56,85 @@ from modules.Automations.file_workflow import (
 import core.state as state
 
 
+_macro_recording_name = None
+_macro_recording_commands = []
+_last_executed_command = None
+
+_HELP_ENTRIES = [
+    {
+        "category": "Core",
+        "commands": [
+            ("help", "Show available commands (use: help <keyword>)"),
+            ("history [n]", "Show recent commands"),
+            ("again", "Run the last command again"),
+            ("exit / quit", "Exit Draco"),
+            ("end session", "End the session and save summary"),
+        ],
+    },
+    {
+        "category": "Macros",
+        "commands": [
+            ("macro list", "List macros"),
+            ("macro show <name>", "Show macro commands"),
+            ("macro <name> [--repeat N]", "Run a macro"),
+            ("macro record <name>", "Start recording commands into a macro"),
+            ("macro stop", "Stop recording and save"),
+            ("macro cancel", "Stop recording without saving"),
+        ],
+    },
+    {
+        "category": "Common",
+        "commands": [
+            ("open website <name>", "Open a website"),
+            ("note add / note show", "Notes system"),
+            ("system status", "System info"),
+            ("send file on whatsapp", "Send clipboard file via WhatsApp"),
+            ("study / focus / pomodoro", "Start study timer"),
+        ],
+    },
+]
+
+
+def _format_help(keyword=None):
+    keyword_l = keyword.lower().strip() if keyword else None
+    lines = []
+    for section in _HELP_ENTRIES:
+        matched = []
+        for cmd_name, cmd_desc in section["commands"]:
+            hay = f"{cmd_name} {cmd_desc}".lower()
+            if not keyword_l or keyword_l in hay:
+                matched.append((cmd_name, cmd_desc))
+        if not matched:
+            continue
+        lines.append(f"\n[{section['category']}]\n")
+        for cmd_name, cmd_desc in matched:
+            lines.append(f"- {cmd_name}  ->  {cmd_desc}")
+    if not lines:
+        return "No matching help entries found. Try: help"
+    return "\n".join(lines).strip()
+
+
+def _suggest_command(cmd):
+    cmd = (cmd or "").strip().lower()
+    if not cmd:
+        return None
+    candidates = []
+    for section in _HELP_ENTRIES:
+        for cmd_name, _ in section["commands"]:
+            candidates.append(cmd_name.lower())
+            candidates.append(cmd_name.split()[0].lower())
+    candidates = list(dict.fromkeys([x for x in candidates if x]))
+    try:
+        from modules.Automations.macros_runner import load_macros
+        macros = load_macros()
+        for name in macros.keys():
+            candidates.append(f"macro {name}")
+    except Exception:
+        pass
+    return difflib.get_close_matches(cmd, candidates, n=3, cutoff=0.6)
+
+
+
 def choose_mode():
     if state.INPUT_MODE is None:
         mode = input("Choose input mode (text/voice):   ").lower()
@@ -71,10 +151,86 @@ def command_prompt():
             print(f"You said: {cmd}")
         else:
             cmd = input("You:  ").lower()
-        
+
+        cmd = (cmd or "").strip().lower()
+
+        global _macro_recording_name, _macro_recording_commands, _last_executed_command
+
+        if _macro_recording_name and cmd and not cmd.startswith("macro record") and cmd not in ["macro stop", "macro cancel"]:
+            _macro_recording_commands.append(cmd)
+
+        if cmd:
+            log_command(cmd)
+
+        if cmd and cmd not in ["again"] and not cmd.startswith("history"):
+            _last_executed_command = cmd
+
         handle_command(cmd)
 
 def handle_command(cmd):
+        global _macro_recording_name, _macro_recording_commands, _last_executed_command
+
+        if cmd == "again":
+            if _last_executed_command:
+                handle_command(_last_executed_command)
+            else:
+                print("No previous command to run.")
+                speak("No previous command to run")
+            return
+
+        elif cmd.startswith("history"):
+            parts = cmd.split()
+            limit = 20
+            if len(parts) == 2:
+                limit = parts[1]
+            commands = get_recent_commands(limit)
+            if not commands:
+                commands = load_previous_session_commands(limit)
+            if not commands:
+                print("No command history found.")
+                speak("No command history found")
+                return
+            print("Recent commands:")
+            for i, cc in enumerate(commands, start=1):
+                print(f"{i}. {cc}")
+            return
+
+        elif cmd == "help" or cmd.startswith("help "):
+            keyword = cmd.replace("help", "", 1).strip()
+            print(_format_help(keyword if keyword else None))
+            speak("Showing help")
+            return
+
+        elif cmd.startswith("macro record"):
+            parts = cmd.split(maxsplit=2)
+            if len(parts) < 3 or not parts[2].strip():
+                print("Usage: macro record <name>")
+                speak("Usage macro record name")
+                return
+            _macro_recording_name = parts[2].strip()
+            _macro_recording_commands = []
+            print(f"Recording macro { _macro_recording_name }. Type commands, then run: macro stop")
+            speak("Macro recording started")
+            return
+
+        elif cmd in ["macro stop", "macro cancel"]:
+            if not _macro_recording_name:
+                print("No macro recording in progress.")
+                speak("No macro recording in progress")
+                return
+            name = _macro_recording_name
+            commands = list(_macro_recording_commands)
+            _macro_recording_name = None
+            _macro_recording_commands = []
+            if cmd == "macro cancel":
+                print(f"Macro recording { name } canceled.")
+                speak("Macro recording canceled")
+                return
+            save_macro(name, commands)
+            print(f"Saved macro { name } with {len(commands)} commands.")
+            speak("Macro saved")
+            return
+
         if cmd=="who are you":
             reply = "I am Draco CLI. A project made for automating tasks."
             print(reply)
@@ -106,8 +262,8 @@ def handle_command(cmd):
             jokes()
         
         elif "help" in cmd or "commands" in cmd:
-             print("Available Commands:\n- who are you\n- who created you\n- open github\n- open youtube\n- open leetcode\n- joke\n- exit")
-             speak("Available Commands...")
+             print(_format_help(None))
+             speak("Showing commands")
         
         elif "system status" in cmd or "system info" in cmd or "my pc" in cmd:
             system_status()
@@ -256,7 +412,9 @@ def handle_command(cmd):
                 print("Usage:")
                 print("macro list")
                 print("macro show <name>")
-                print("macro <name>")
+                print("macro <name> [--repeat N]")
+                print("macro record <name>")
+                print("macro stop")
     
             elif parts[1] == "list":
                 list_macros()
@@ -264,8 +422,16 @@ def handle_command(cmd):
             elif parts[1] == "show" and len(parts) == 3:
                 show_macro(parts[2])
 
-            elif len(parts) == 2:
-                run_macro(parts[1], handle_command)
+            elif len(parts) >= 2:
+                name = parts[1]
+                repeat = 1
+                if "--repeat" in parts:
+                    try:
+                        idx = parts.index("--repeat")
+                        repeat = parts[idx + 1]
+                    except Exception:
+                        repeat = 1
+                run_macro(name, handle_command, repeat=repeat)
 
             else:
                 print("Invalid macro command.")
@@ -420,8 +586,42 @@ def handle_command(cmd):
         elif cmd == "speak english":
             state.LANGUAGE = "english"
             speak("English mode activated")
+        
+        elif cmd == "draco identity":
+            print("\nDraco CLI | System Identity\n")
+            speak("\nDraco CLI | System Identity\n")
+            print("Core Type: Modular Command Line Assistant")
+            speak("Core Type: Modular Command Line Assistant")
+            print("Primary Role: Automation + AI + Workflow Optimization\n")
+            speak("Primary Role: Automation + AI + Workflow Optimization\n")
+            print("Active Systems:")
+            speak("Active Systems:")
+            print("• AI Engine: Online")
+            speak("• AI Engine: Online")
+            print("• Voice Engine: Ready")
+            speak("• Voice Engine: Ready")
+            print("• Language Mode: English")
+            speak("• Language Mode: English")
+            print("• Automation Modules: Loaded\n")
+            speak("• Automation Modules: Loaded\n")
+            print("Operational Focus:")
+            speak("Operational Focus:")
+            print("Assisting with productivity, automation, learning, and system tasks.\n")
+            speak("Assisting with productivity, automation, learning, and system tasks.\n")
+            print("Status:")
+            speak("Status:")
+            print("All systems functioning normally\n")
+            speak("All systems functioning normally\n")
 
         else:
+            suggestions = _suggest_command(cmd)
+            if suggestions:
+                print("Command not recognized.")
+                print("Did you mean:")
+                for s in suggestions:
+                    print(f"- {s}")
+                speak("Command not recognized")
+                return
             reply = fallback(cmd)
             print(reply)
-            speak(reply) 
+            speak(reply)
