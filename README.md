@@ -198,6 +198,13 @@ clear weak         → Reset weakness memory
 - send file on whatsapp  
 - end of the day  
 - help  
+- help whatsapp
+- history
+- history 50
+- again
+- macro record coding
+- macro stop
+- macro coding --repeat 2
 
 ---
 
