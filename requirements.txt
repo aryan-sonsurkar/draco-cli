@@ -8,4 +8,5 @@ pyaudio
 pyperclip
 opencv-python
 python-pptx
-edge-tts==1.2.2
+edge-tts==1.2.2playsound
+python-chess
