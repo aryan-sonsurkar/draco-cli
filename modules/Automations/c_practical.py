@@ -3,7 +3,7 @@ import os
 import subprocess
 from modules.Automations.typer import raw_type, press_keys
 from core.tts import speak
-
+from modules.Ollama.ollama_helper import ask_ollama
 DOSBOX_PATHS = [
     r"C:\Program Files (x86)\DOSBox-0.74-3\DOSBox.exe",
     r"C:\Program Files\DOSBox-0.74-3\DOSBox.exe",
@@ -23,6 +23,22 @@ void main()
     getch();
 }
 """
+
+def generate_c_program():
+    speak("Tell me the C practical question.")
+    question = input("Enter C practical question: ")
+
+    prompt = f"""
+    Write a complete Turbo C compatible C program.
+    Use void main(), clrscr(), and getch().
+    No modern syntax.
+    Question: {question}
+    """
+
+    speak("Generating program using AI.")
+    response = ask_ollama(prompt)
+
+    write_generated_code(response)
 
 def open_turbo_c():
     dosbox = None
@@ -49,12 +65,10 @@ def open_turbo_c():
     time.sleep(12)
     return True
 
-
-def write_c_boilerplate():
+def write_generated_code(code):
     if not open_turbo_c():
         return
 
-    speak("Opening new file.")
     time.sleep(2)
 
     press_keys("alt")
@@ -63,7 +77,5 @@ def write_c_boilerplate():
 
     time.sleep(2)
 
-    speak("Typing C boilerplate. Please do not touch the keyboard.")
-    raw_type(C_BOILERPLATE)
-
-    speak("Boilerplate ready. You can now write your logic.")
+    raw_type(code)
+    speak("Program written successfully.")

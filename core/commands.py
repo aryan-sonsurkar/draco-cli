@@ -36,7 +36,7 @@ from modules.Automations.boilerplate import (
     create_web_project,
     create_python_project
 )
-from modules.Automations.c_practical import write_c_boilerplate
+from modules.Automations.c_practical import generate_c_program
 from modules.Automations.practical_manager import (
     add_practical,
     mark_done,
@@ -665,7 +665,7 @@ def handle_command(cmd):
                 speak(reply)
         
         elif cmd == "practical c" or cmd == "c practical":
-            write_c_boilerplate()
+            generate_c_program()
         
         elif cmd.startswith("practical"):
             parts = cmd.split()
